@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="page-header">
+        <h1>Add New Question</h1>
+        <a href="{{ url_for('admin_questions') }}" class="btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back to Questions
+        </a>
+    </div>
+
+    <div class="form-card">
+        <form method="POST" class="question-form">
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select id="category" name="category" required>
+                    <option value="">Select Category</option>
+                    <option value="Basic Programming Concepts">Basic Programming Concepts</option>
+                    <option value="Object-Oriented Programming">Object-Oriented Programming</option>
+                    <option value="Data Structures">Data Structures</option>
+                    <option value="Algorithms">Algorithms</option>
+                    <option value="Web Development">Web Development</option>
+                    <option value="Database Concepts">Database Concepts</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="question_text">Question</label>
+                <textarea id="question_text" name="question_text" rows="4" required></textarea>
+            </div>
+
+            <div class="form-group code-editor">
+                <label for="code_text">Code Snippet (optional)</label>
+                <div class="code-controls">
+                    <select id="code_language" name="code_language">
+                        <option value="c">C</option>
+                        <option value="cpp">C++</option>
+                        <option value="python">Python</option>
+                        <option value="java">Java</option>
+                        <option value="javascript">JavaScript</option>
+                    </select>
+                    <button type="button" id="previewBtn" class="btn-preview">
+                        <i class="fas fa-eye"></i> Preview
+                    </button>
+                </div>
+                <textarea id="code_text" name="code_text" rows="8" 
+                          placeholder="Enter code here..." 
+                          class="code-textarea"
+                          spellcheck="false"></textarea>
+                <div id="codePreview" class="code-preview"></div>
+            </div>
+
+            <div class="options-grid">
+                <div class="form-group">
+                    <label for="option_a">Option A</label>
+                    <input type="text" id="option_a" name="option_a" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="option_b">Option B</label>
+                    <input type="text" id="option_b" name="option_b" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="option_c">Option C</label>
+                    <input type="text" id="option_c" name="option_c" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="option_d">Option D</label>
+                    <input type="text" id="option_d" name="option_d" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="correct_answer">Correct Answer</label>
+                <select id="correct_answer" name="correct_answer" required>
+                    <option value="">Select Correct Answer</option>
+                    <option value="A">Option A</option>
+                    <option value="B">Option B</option>
+                    <option value="C">Option C</option>
+                    <option value="D">Option D</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="explanation">Explanation</label>
+                <textarea id="explanation" name="explanation" rows="3" required></textarea>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Add Question</button>
+                <button type="reset" class="btn-secondary">Clear Form</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+.code-editor {
+    background: #1e1e1e;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.code-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #2d2d2d;
+    padding: 0.5rem;
+    border-bottom: 1px solid #3d3d3d;
+}
+
+.code-controls select {
+    background: #3d3d3d;
+    color: #e1e1e1;
+    border: 1px solid #4d4d4d;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+}
+
+.code-textarea {
+    width: 100%;
+    background: #1e1e1e;
+    color: #e1e1e1;
+    font-family: 'Monaco', 'Consolas', monospace;
+    font-size: 14px;
+    padding: 1rem;
+    border: none;
+    resize: vertical;
+    line-height: 1.5;
+    tab-size: 4;
+}
+
+.code-textarea:focus {
+    outline: none;
+    background: #252525;
+}
+
+.btn-preview {
+    background: #3d3d3d;
+    color: #e1e1e1;
+    border: 1px solid #4d4d4d;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-preview:hover {
+    background: #4d4d4d;
+}
+
+.code-preview {
+    display: none;
+    padding: 1rem;
+    background: #1e1e1e;
+    border-top: 1px solid #3d3d3d;
+}
+
+.code-preview img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+</style>
+
+<script>
+document.getElementById('previewBtn').addEventListener('click', function() {
+    const codeText = document.getElementById('code_text').value;
+    const language = document.getElementById('code_language').value;
+    const preview = document.getElementById('codePreview');
+    
+    if (!codeText.trim()) {
+        alert('Please enter some code to preview');
+        return;
+    }
+    
+    // Show loading state
+    preview.style.display = 'block';
+    preview.innerHTML = '<div class="loading">Generating preview...</div>';
+    
+    // Create a temporary question to generate preview
+    fetch('/api/preview-code', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            code_text: codeText,
+            language: language
+        })
+    })
+    .then(response => response.blob())
+    .then(blob => {
+        const url = URL.createObjectURL(blob);
+        preview.innerHTML = `<img src="${url}" alt="Code preview">`;
+    })
+    .catch(error => {
+        preview.innerHTML = `<div class="error">Error generating preview: ${error}</div>`;
+    });
+});
+</script>
+{% endblock %} 

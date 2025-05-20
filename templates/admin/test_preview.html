@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/code-blocks.css') }}">
+<style>
+/* Syntax highlighting styles */
+{% for question in questions %}
+    {% if question.code_text %}
+        {{ question.get_highlight_css()|safe }}
+    {% endif %}
+{% endfor %}
+
+/* Test code display styles */
+.test-code-display {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.test-code-display .label {
+    color: #64748b;
+    font-size: 0.875rem;
+}
+
+.test-code-display .code {
+    font-family: 'Consolas', monospace;
+    font-size: 1rem;
+    color: #1e293b;
+    font-weight: 500;
+}
+
+.copy-btn {
+    background: none;
+    border: none;
+    color: #3b82f6;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.copy-btn:hover {
+    background: #eff6ff;
+}
+
+@media print {
+    .header-actions, .main-nav {
+        display: none !important;
+    }
+    .preview-container {
+        padding: 0 !important;
+    }
+    .preview-question-card {
+        break-inside: avoid;
+    }
+    .copy-btn {
+        display: none !important;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="preview-container">
+    <div class="preview-header">
+        <div class="header-content">
+            <h1>Test Preview: {{ test.title }}</h1>
+            <div class="test-code-display">
+                <span class="label">Test Code:</span>
+                <span class="code">{{ test.test_code }}</span>
+                <button class="copy-btn" onclick="copyTestCode('{{ test.test_code }}')">
+                    <i class="fas fa-copy"></i>
+                </button>
+            </div>
+            <div class="test-meta">
+                <span><i class="fas fa-clock"></i> Duration: {{ test.duration }} minutes</span>
+                <span><i class="fas fa-check-circle"></i> Passing Score: {{ test.passing_score }}%</span>
+                <span><i class="fas fa-redo"></i> Max Attempts: {{ test.max_attempts }}</span>
+            </div>
+        </div>
+        <div class="header-actions">
+            <a href="{{ url_for('create_test') }}" class="btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Create Test
+            </a>
+            <a href="{{ url_for('admin_dashboard') }}" class="btn-secondary">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+            <button class="btn-primary" onclick="window.print()">
+                <i class="fas fa-print"></i> Print Preview
+            </button>
+        </div>
+    </div>
+
+    <div class="preview-description">
+        <h2>Description</h2>
+        <p>{{ test.description }}</p>
+    </div>
+
+    <div class="preview-questions">
+        <h2>Questions</h2>
+        {% for question in questions %}
+        <div class="preview-question-card">
+            <div class="question-header">
+                <span class="question-number">Question {{ loop.index }}</span>
+            </div>
+            <div class="question-content">
+                <p class="question-text">{{ question.question_text }}</p>
+                {% if question.code_text %}
+                <div class="code-block">
+                    <div class="code-header">
+                        <span><i class="fas fa-code"></i> Code</span>
+                        <span class="code-language">{{ question.code_language }}</span>
+                    </div>
+                    {% if question.get_highlighted_code() %}
+                        {{ question.get_highlighted_code()|safe }}
+                    {% else %}
+                        <pre class="code-text">{{ question.code_text }}</pre>
+                    {% endif %}
+                </div>
+                {% endif %}
+                <div class="options-grid">
+                    <div class="option {% if question.correct_answer == 'A' %}correct{% endif %}">
+                        <span class="option-label">A</span>
+                        {{ question.option_a }}
+                    </div>
+                    <div class="option {% if question.correct_answer == 'B' %}correct{% endif %}">
+                        <span class="option-label">B</span>
+                        {{ question.option_b }}
+                    </div>
+                    <div class="option {% if question.correct_answer == 'C' %}correct{% endif %}">
+                        <span class="option-label">C</span>
+                        {{ question.option_c }}
+                    </div>
+                    <div class="option {% if question.correct_answer == 'D' %}correct{% endif %}">
+                        <span class="option-label">D</span>
+                        {{ question.option_d }}
+                    </div>
+                </div>
+                {% if question.explanation %}
+                <div class="question-explanation">
+                    <strong>Explanation:</strong> {{ question.explanation }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function copyTestCode(code) {
+    navigator.clipboard.writeText(code).then(() => {
+        const btn = document.querySelector('.copy-btn');
+        const icon = btn.querySelector('i');
+        icon.className = 'fas fa-check';
+        setTimeout(() => {
+            icon.className = 'fas fa-copy';
+        }, 2000);
+    });
+}
+</script>
+{% endblock %} 

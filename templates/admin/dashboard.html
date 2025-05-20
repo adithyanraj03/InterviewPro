@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="page-header">
+        <h1>Admin Dashboard</h1>
+        <div class="header-actions">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search...">
+            </div>
+            <div class="header-buttons">
+                <button class="btn-secondary">
+                    <i class="fas fa-download"></i>
+                    Export Data
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+        <!-- Statistics Cards -->
+        <div class="stat-card">
+            <div class="stat-icon questions">
+                <i class="fas fa-question-circle"></i>
+            </div>
+            <div class="stat-info">
+                <h3>Total Questions</h3>
+                <p class="stat-number">{{ questions|length }}</p>
+                <p class="stat-change positive">+5% from last week</p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon tests">
+                <i class="fas fa-file-alt"></i>
+            </div>
+            <div class="stat-info">
+                <h3>Total Tests</h3>
+                <p class="stat-number">{{ tests|length }}</p>
+                <p class="stat-change positive">+2 new tests</p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon candidates">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-info">
+                <h3>Total Candidates</h3>
+                <p class="stat-number">{{ candidates|length }}</p>
+                <p class="stat-change positive">+3 this week</p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon completion">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <div class="stat-info">
+                <h3>Completion Rate</h3>
+                <p class="stat-number">85%</p>
+                <p class="stat-change positive">+2% from last month</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-content">
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <h2>Quick Actions</h2>
+            <div class="action-buttons">
+                <a href="{{ url_for('admin_questions') }}" class="action-btn">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Manage Questions</span>
+                </a>
+                <a href="{{ url_for('create_test') }}" class="action-btn">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Create Test</span>
+                </a>
+                <a href="{{ url_for('view_candidates') }}" class="action-btn">
+                    <i class="fas fa-users"></i>
+                    <span>View Candidates</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="recent-activity">
+            <h2>Recent Activity</h2>
+            <div class="activity-list">
+                {% for activity in recent_activities %}
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        <i class="{{ activity.icon }}"></i>
+                    </div>
+                    <div class="activity-details">
+                        <p class="activity-text">{{ activity.description }}</p>
+                        <span class="activity-time">{{ activity.time }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Performance Charts -->
+        <div class="performance-charts">
+            <div class="chart-container">
+                <h2>Test Completion Statistics</h2>
+                <canvas id="completionChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h2>Candidate Performance</h2>
+                <canvas id="performanceChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// Completion Chart
+const completionCtx = document.getElementById('completionChart').getContext('2d');
+new Chart(completionCtx, {
+    type: 'line',
+    data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [{
+            label: 'Test Completions',
+            data: [65, 72, 78, 75, 82, 85],
+            borderColor: '#007bff',
+            tension: 0.4
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top',
+            }
+        }
+    }
+});
+
+// Performance Chart
+const performanceCtx = document.getElementById('performanceChart').getContext('2d');
+new Chart(performanceCtx, {
+    type: 'bar',
+    data: {
+        labels: ['90-100%', '80-89%', '70-79%', '60-69%', 'Below 60%'],
+        datasets: [{
+            label: 'Candidates',
+            data: [10, 15, 20, 12, 8],
+            backgroundColor: '#28a745'
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top',
+            }
+        }
+    }
+});
+</script>
+{% endblock %} 

@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-box">        <div class="auth-header">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="InterViewPro" class="auth-logo">
+            <h1>Interview Portal</h1>
+            <p class="auth-subtitle">Software Development Assessment Platform</p>
+        </div>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="flash-messages">
+            {% for message in messages %}
+            <div class="flash-message error">
+                <i class="fas fa-exclamation-circle"></i>
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('register') }}" class="auth-form" id="registerForm">
+            <div class="form-group">
+                <label for="username">
+                    <i class="fas fa-user"></i>
+                    Username
+                </label>
+                <input type="text" id="username" name="username" required>
+                <span class="error-message" id="username-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="email">
+                    <i class="fas fa-envelope"></i>
+                    Email
+                </label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="full_name">
+                    <i class="fas fa-id-card"></i>
+                    Full Name
+                </label>
+                <input type="text" id="full_name" name="full_name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">
+                    <i class="fas fa-phone"></i>
+                    Phone Number
+                </label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+
+            <div class="form-group">
+                <label for="experience">
+                    <i class="fas fa-briefcase"></i>
+                    Years of Experience
+                </label>
+                <input type="number" id="experience" name="experience_years" min="0" required>
+            </div>
+
+            <div class="form-group">
+                <label for="current_role">
+                    <i class="fas fa-user-tie"></i>
+                    Current Role
+                </label>
+                <input type="text" id="current_role" name="current_role" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">
+                    <i class="fas fa-lock"></i>
+                    Password
+                </label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <button type="submit" class="btn-primary btn-block">
+                <i class="fas fa-user-plus"></i>
+                Register
+            </button>
+        </form>
+
+        <script>
+        document.getElementById('username').addEventListener('blur', function() {
+            const username = this.value;
+            if (username) {
+                fetch(`/check-username?username=${username}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const errorElement = document.getElementById('username-error');
+                        if (data.exists) {
+                            errorElement.textContent = 'Username already exists';
+                            errorElement.style.display = 'block';
+                            this.classList.add('error');
+                        } else {
+                            errorElement.style.display = 'none';
+                            this.classList.remove('error');
+                        }
+                    });
+            }
+        });
+        </script>
+
+        <div class="auth-footer">
+            <p>Already have an account? <a href="{{ url_for('index') }}">Login here</a></p>
+            <div class="company-info">
+                <p>© 2025 InterViewPro</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,231 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="page-header">
+        <h1>Edit Question</h1>
+        <a href="{{ url_for('admin_questions') }}" class="btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back to Questions
+        </a>
+    </div>
+
+    <div class="form-card">
+        <form method="POST" class="question-form">
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select id="category" name="category" required>
+                    <option value="">Select Category</option>
+                    <option value="Basic Programming Concepts" {% if question.category == 'Basic Programming Concepts' %}selected{% endif %}>Basic Programming Concepts</option>
+                    <option value="Object-Oriented Programming" {% if question.category == 'Object-Oriented Programming' %}selected{% endif %}>Object-Oriented Programming</option>
+                    <option value="Data Structures" {% if question.category == 'Data Structures' %}selected{% endif %}>Data Structures</option>
+                    <option value="Algorithms" {% if question.category == 'Algorithms' %}selected{% endif %}>Algorithms</option>
+                    <option value="Web Development" {% if question.category == 'Web Development' %}selected{% endif %}>Web Development</option>
+                    <option value="Database Concepts" {% if question.category == 'Database Concepts' %}selected{% endif %}>Database Concepts</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="question_text">Question</label>
+                <textarea id="question_text" name="question_text" rows="4" required>{{ question.question_text }}</textarea>
+            </div>
+
+            <div class="form-group code-editor">
+                <label for="code_text">Code Snippet (optional)</label>
+                <div class="code-controls">
+                    <select id="code_language" name="code_language">
+                        <option value="c" {% if question.code_language == 'c' %}selected{% endif %}>C</option>
+                        <option value="cpp" {% if question.code_language == 'cpp' %}selected{% endif %}>C++</option>
+                        <option value="python" {% if question.code_language == 'python' %}selected{% endif %}>Python</option>
+                        <option value="java" {% if question.code_language == 'java' %}selected{% endif %}>Java</option>
+                        <option value="javascript" {% if question.code_language == 'javascript' %}selected{% endif %}>JavaScript</option>
+                    </select>
+                </div>
+                <textarea id="code_text" name="code_text" rows="8" 
+                          placeholder="Enter code here..." 
+                          class="code-textarea"
+                          spellcheck="false">{{ question.code_text }}</textarea>
+                <div id="live-preview" class="code-preview">
+                    {% if question.code_text %}
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Preview</span>
+                            <span class="code-language">{{ question.code_language }}</span>
+                        </div>
+                        <div class="code-content">
+                            {{ question.get_highlighted_code()|safe }}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="options-grid">
+                <div class="form-group">
+                    <label for="option_a">Option A</label>
+                    <input type="text" id="option_a" name="option_a" value="{{ question.option_a }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="option_b">Option B</label>
+                    <input type="text" id="option_b" name="option_b" value="{{ question.option_b }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="option_c">Option C</label>
+                    <input type="text" id="option_c" name="option_c" value="{{ question.option_c }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="option_d">Option D</label>
+                    <input type="text" id="option_d" name="option_d" value="{{ question.option_d }}" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="correct_answer">Correct Answer</label>
+                <select id="correct_answer" name="correct_answer" required>
+                    <option value="">Select Correct Answer</option>
+                    <option value="A" {% if question.correct_answer == 'A' %}selected{% endif %}>Option A</option>
+                    <option value="B" {% if question.correct_answer == 'B' %}selected{% endif %}>Option B</option>
+                    <option value="C" {% if question.correct_answer == 'C' %}selected{% endif %}>Option C</option>
+                    <option value="D" {% if question.correct_answer == 'D' %}selected{% endif %}>Option D</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="explanation">Explanation</label>
+                <textarea id="explanation" name="explanation" rows="3" required>{{ question.explanation }}</textarea>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Update Question</button>
+                <a href="{{ url_for('admin_questions') }}" class="btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const codeTextarea = document.getElementById('code_text');
+    const languageSelect = document.getElementById('code_language');
+    const previewDiv = document.getElementById('live-preview');
+    
+    function updatePreview() {
+        const code = codeTextarea.value;
+        const language = languageSelect.value;
+        
+        if (code.trim()) {
+            fetch('/api/preview-code', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    code_text: code,
+                    language: language
+                })
+            })
+            .then(response => response.text())
+            .then(html => {
+                previewDiv.innerHTML = `
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Preview</span>
+                            <span class="code-language">${language}</span>
+                        </div>
+                        <div class="code-content">
+                            ${html}
+                        </div>
+                    </div>
+                `;
+            });
+        } else {
+            previewDiv.innerHTML = '';
+        }
+    }
+    
+    let timeout;
+    codeTextarea.addEventListener('input', () => {
+        clearTimeout(timeout);
+        timeout = setTimeout(updatePreview, 500);
+    });
+    
+    languageSelect.addEventListener('change', updatePreview);
+});
+</script>
+
+<style>
+/* Code editor styles */
+.code-textarea {
+    font-family: 'Consolas', 'Monaco', monospace;
+    background: #1e1e1e;
+    color: #ffffff;  /* Bright white for editing */
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #2d2d2d;
+    width: 100%;
+    font-size: 14px;
+    line-height: 1.5;
+    tab-size: 4;
+    -moz-tab-size: 4;
+}
+
+.code-preview {
+    margin-top: 1rem;
+}
+
+.code-block {
+    background: #1e1e1e;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #2d2d2d;
+}
+
+.code-header {
+    background: #2d2d2d;
+    padding: 0.75rem 1rem;
+    color: #ffffff;
+    font-family: 'Monaco', 'Consolas', monospace;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #3d3d3d;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.code-language {
+    background: #3d3d3d;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: #9ca3af;
+}
+
+.code-content {
+    padding: 1rem;
+    background: #1e1e1e;
+    color: #ffffff;  /* Bright white for preview */
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    overflow-x: auto;
+    white-space: pre;
+}
+
+/* Scrollbar styling */
+.code-content::-webkit-scrollbar {
+    height: 8px;
+    background: #1e1e1e;
+}
+
+.code-content::-webkit-scrollbar-thumb {
+    background: #3d3d3d;
+    border-radius: 4px;
+}
+
+.code-content::-webkit-scrollbar-thumb:hover {
+    background: #4d4d4d;
+}
+</style>
+{% endblock %} 

@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="result-container">
+    <div class="result-header">
+        <h1>Test Result Details</h1>
+        <div class="meta-info">
+            <div class="info-item">
+                <span class="label">Candidate:</span>
+                <span class="value">{{ candidate.full_name or candidate.username }}</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Test:</span>
+                <span class="value">{{ test.title }}</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Score:</span>
+                <span class="value {% if score >= test.passing_score %}pass{% else %}fail{% endif %}">
+                    {{ "%.2f"|format(score|float) }}%
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="label">Time Spent:</span>
+                <span class="value">{{ time_spent_formatted }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="answers-review">
+        {% for question in questions %}
+        <div class="question-card">
+            <div class="question-header">
+                <span class="question-number">Question {{ loop.index }}</span>
+                {% if question.id in answers %}
+                <span class="result-indicator {% if answers[question.id].is_correct %}correct{% else %}incorrect{% endif %}">
+                    <i class="fas fa-{% if answers[question.id].is_correct %}check{% else %}times{% endif %}"></i>
+                </span>
+                {% endif %}
+            </div>
+            
+            <div class="question-content">
+                <p class="question-text">{{ question.question_text }}</p>
+                
+                {% if question.code_text %}
+                <div class="code-block">
+                    <div class="code-header">
+                        <span><i class="fas fa-code"></i> Code</span>
+                        <span class="code-language">{{ question.code_language }}</span>
+                    </div>
+                    {{ question.get_highlighted_code()|safe }}
+                </div>
+                {% endif %}
+                
+                <div class="options-grid">
+                    {% for letter in ['A', 'B', 'C', 'D'] %}
+                    <div class="option 
+                        {% if question.id in answers and answers[question.id].answer == letter %}selected{% endif %}
+                        {% if letter == question.correct_answer %}correct{% endif %}">
+                        <span class="option-label">{{ letter }}</span>
+                        {{ question|attr('option_' + letter|lower) }}
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                {% if question.explanation %}
+                <div class="explanation">
+                    <strong>Explanation:</strong> {{ question.explanation }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+.result-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.result-header {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.meta-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.result-indicator {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+}
+
+.result-indicator.correct {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.result-indicator.incorrect {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.option.selected {
+    border: 2px solid #3b82f6;
+}
+
+.option.correct {
+    background: #dcfce7;
+}
+
+.explanation {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 8px;
+    font-size: 0.875rem;
+}
+</style>
+{% endblock %} 

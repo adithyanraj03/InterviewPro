@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="candidate-container">
+    <div class="welcome-section">
+        <h1>Welcome, {{ current_user.username }}</h1>
+        <p class="subtitle">Your Software Development Assessment Portal</p>
+    </div>
+
+    <!-- Test Code Entry -->
+    <div class="test-code-section">
+        <h2>Add Test</h2>
+        <form method="POST" action="{{ url_for('add_test_access') }}" class="test-code-form">
+            <div class="form-group">
+                <input type="text" name="test_code" placeholder="Enter Test Code" required>
+                <button type="submit" class="btn-primary">
+                    <i class="fas fa-plus"></i> Add Test
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="available-tests">
+        <h2>Your Tests</h2>
+        <div class="tests-grid">
+            {% for test in tests %}
+            <div class="test-card" data-test-id="{{ test.id }}" data-duration="{{ test.duration }}">
+                <div class="test-header">
+                    <h3>{{ test.title }}</h3>
+                    <span class="test-duration">
+                        <i class="fas fa-clock"></i> {{ test.duration }} minutes
+                    </span>
+                </div>
+                <div class="test-details">
+                    <p>{{ test.description }}</p>
+                    <ul class="test-info">
+                        <li><i class="fas fa-check-circle"></i> Passing Score: {{ test.passing_score }}%</li>
+                        <li><i class="fas fa-redo"></i> Attempts Remaining: {{ current_user.get_remaining_attempts(test) }}/{{ test.max_attempts }}</li>
+                        <li><i class="fas fa-question-circle"></i> Questions: {{ test.questions|length }}</li>
+                    </ul>
+                    {% if current_user.get_remaining_attempts(test) <= 0 %}
+                    <div class="test-status error">
+                        <i class="fas fa-exclamation-circle"></i>
+                        Maximum attempts reached
+                    </div>
+                    {% endif %}
+                </div>
+                <button class="btn-start-test" type="button" data-test-id="{{ test.id }}">
+                    <i class="fas fa-play"></i> Start Test
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Test Warning Modal -->
+<div id="testWarningModal" class="modal">
+    <div class="modal-content">
+        <form id="startTestForm" method="GET">
+            <div class="modal-header">
+                <h2><i class="fas fa-exclamation-triangle"></i> Important Notice</h2>
+                <button type="button" class="close-button" onclick="closeTestWarning(); return false;">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h3>Please read carefully before starting the test:</h3>
+                <ul class="warning-list">
+                    <li><i class="fas fa-check"></i> The test will open in full-screen mode</li>
+                    <li><i class="fas fa-check"></i> Leaving full-screen will result in test termination</li>
+                    <li><i class="fas fa-check"></i> Tab switching or window minimizing is not allowed</li>
+                    <li><i class="fas fa-check"></i> Copy-pasting is disabled during the test</li>
+                    <li><i class="fas fa-check"></i> Ensure stable internet connection</li>
+                    <li><i class="fas fa-check"></i> Time limit: <span id="testDuration"></span> minutes</li>
+                </ul>
+                <div class="consent-check">
+                    <input type="checkbox" id="consentCheckbox" required>
+                    <label for="consentCheckbox">I understand and agree to the test conditions</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="closeTestWarning(); return false;">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="submit" class="btn-primary" id="startTestBtn" disabled>
+                    <i class="fas fa-play"></i> Begin Test
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Script loaded');
+    
+    const startButtons = document.querySelectorAll('.btn-start-test');
+    const modal = document.getElementById('testWarningModal');
+    const startTestForm = document.getElementById('startTestForm');
+    const consentCheckbox = document.getElementById('consentCheckbox');
+    const startTestBtn = document.getElementById('startTestBtn');
+    
+    console.log('Found start buttons:', startButtons.length);
+    
+    startButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const testId = this.getAttribute('data-test-id');
+            console.log('Button clicked, test ID:', testId);
+            showModal(testId);
+        });
+    });
+
+    function showModal(testId) {
+        console.log('Showing modal for test ID:', testId);
+        const durationSpan = document.getElementById('testDuration');
+        const testCard = document.querySelector(`.test-card[data-test-id="${testId}"]`);
+        
+        if (modal && durationSpan && testCard) {
+            durationSpan.textContent = testCard.dataset.duration;
+            modal.style.display = 'flex';
+            startTestForm.action = `/candidate/test/${testId}`;
+            console.log('Form action set to:', startTestForm.action);
+        }
+    }
+
+    if (consentCheckbox) {
+        consentCheckbox.addEventListener('change', function() {
+            startTestBtn.disabled = !this.checked;
+            console.log('Checkbox changed, button disabled:', startTestBtn.disabled);
+        });
+    }
+
+    if (startTestForm) {
+        startTestForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            console.log('Form submitted, action:', this.action);
+            
+            if (!consentCheckbox.checked) {
+                console.log('Consent not checked');
+                return;
+            }
+            
+            startTestBtn.disabled = true;
+            startTestBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+            
+            window.location.href = this.action;
+        });
+    }
+});
+
+function closeTestWarning() {
+    const modal = document.getElementById('testWarningModal');
+    if (modal) {
+        modal.style.display = 'none';
+        const checkbox = document.getElementById('consentCheckbox');
+        const startBtn = document.getElementById('startTestBtn');
+        if (checkbox) checkbox.checked = false;
+        if (startBtn) startBtn.disabled = true;
+    }
+}
+</script>
+{% endblock %} 

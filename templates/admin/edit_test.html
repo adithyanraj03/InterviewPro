@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="page-header">
+        <div class="header-content">
+            <h1>Edit Test</h1>
+            <p class="header-description">Modify test details and questions</p>
+        </div>
+        <div class="header-actions">
+            <a href="{{ url_for('admin_tests') }}" class="btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Tests
+            </a>
+        </div>
+    </div>
+
+    <div class="edit-test-form">
+        <form method="POST">
+            <div class="form-group">
+                <label for="title">Test Title</label>
+                <input type="text" id="title" name="title" value="{{ test.title }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="3" required>{{ test.description }}</textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="duration">Duration (minutes)</label>
+                    <input type="number" id="duration" name="duration" value="{{ test.duration }}" required min="1">
+                </div>
+
+                <div class="form-group">
+                    <label for="passing_score">Passing Score (%)</label>
+                    <input type="number" id="passing_score" name="passing_score" value="{{ test.passing_score }}" required min="0" max="100">
+                </div>
+
+                <div class="form-group">
+                    <label for="max_attempts">Maximum Attempts</label>
+                    <input type="number" id="max_attempts" name="max_attempts" value="{{ test.max_attempts }}" required min="1">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Select Questions</label>
+                <div class="questions-selector">
+                    {% for question in questions %}
+                    <div class="question-item">
+                        <input type="checkbox" 
+                               name="selected_questions" 
+                               value="{{ question.id }}"
+                               id="q{{ question.id }}"
+                               {% if question in test.questions %}checked{% endif %}>
+                        <label for="q{{ question.id }}">
+                            <span class="question-category">{{ question.category }}</span>
+                            <span class="question-text">{{ question.question_text }}</span>
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+/* Form container */
+.edit-test-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-top: 1.5rem;
+}
+
+/* Form inputs */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #1e293b;
+    font-weight: 500;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color: #1e293b;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+/* Questions selector */
+.questions-selector {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 1rem;
+    background: #f8fafc;
+}
+
+.question-item {
+    padding: 0.75rem;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    transition: background-color 0.2s;
+}
+
+.question-item:hover {
+    background: #f1f5f9;
+}
+
+.question-item:last-child {
+    border-bottom: none;
+}
+
+.question-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-top: 0.25rem;
+    cursor: pointer;
+}
+
+.question-item label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    cursor: pointer;
+    flex: 1;
+}
+
+.question-category {
+    font-size: 0.875rem;
+    color: #64748b;
+    background: #e2e8f0;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.question-text {
+    color: #1e293b;
+    line-height: 1.5;
+}
+
+.form-actions {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.form-actions .btn-primary {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+}
+
+/* Scrollbar styling */
+.questions-selector::-webkit-scrollbar {
+    width: 8px;
+}
+
+.questions-selector::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 8px;
+}
+
+.questions-selector::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 8px;
+}
+
+.questions-selector::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+</style>
+{% endblock %} 

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InterViewPro Interview Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/code-blocks.css') }}">
+    <style>
+    .nav-link {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1rem;
+        color: #64748b;
+        text-decoration: none;
+        border-radius: 8px;
+        transition: all 0.2s;
+    }
+
+    .nav-link:hover {
+        background: #f1f5f9;
+        color: #1e293b;
+    }
+
+    .nav-link.active {
+        background: #e2e8f0;
+        color: #1e293b;
+        font-weight: 500;
+    }
+
+    .nav-link i {
+        font-size: 1.1rem;
+    }
+
+    .main-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+        background: white;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    </style>
+</head>
+<body>
+    {% if current_user.is_authenticated %}
+    <nav class="main-nav">
+        <div class="nav-brand">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Interview Pro" class="brand-logo">
+            <span class="brand-divider">|</span>
+            <span class="brand-text">Interview Portal</span>
+        </div>
+        <div class="nav-links">
+            {% if current_user.is_admin %}
+            <a href="{{ url_for('admin_dashboard') }}" class="nav-link {% if request.endpoint == 'admin_dashboard' %}active{% endif %}">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+            </a>
+            <a href="{{ url_for('admin_questions') }}" class="nav-link {% if request.endpoint == 'admin_questions' %}active{% endif %}">
+                <i class="fas fa-question-circle"></i> Questions
+            </a>
+            <a href="{{ url_for('admin_tests') }}" class="nav-link {% if request.endpoint == 'admin_tests' %}active{% endif %}">
+                <i class="fas fa-file-alt"></i> Tests
+            </a>
+            <a href="{{ url_for('view_candidates') }}" class="nav-link {% if request.endpoint == 'view_candidates' %}active{% endif %}">
+                <i class="fas fa-users"></i> Candidates
+            </a>
+            <a href="{{ url_for('logout') }}" class="btn-logout">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+            {% else %}
+            <a href="{{ url_for('logout') }}" class="btn-logout">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+            {% endif %}
+        </div>
+    </nav>
+    {% endif %}
+
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="flash-message">
+                        <i class="fas fa-info-circle"></i>
+                        {{ message }}
+                        <button class="close-flash">&times;</button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html> 
