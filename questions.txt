@@ -1,0 +1,174 @@
+The PDF has been successfully converted to text. Here is the extracted content:
+
+---
+
+**Set 2 AT**  
+**APTITUDE TEST (Software Developer)**  
+
+1. Pointing to a photograph of a man, Pooja said, "He is the only son of the mother of my sister's brother." How is that person related to Pooja?  
+   A. Father  
+   B. Maternal Uncle  
+   C. Cousin  
+   D. None of these  
+
+2. I. School A has more admissions than School B.  
+   II. School C has fewer admissions than School B.  
+   III. School A has fewer admissions than School C.  
+
+   If the first two statements are true, the third statement is:  
+   A. False  
+   B. True  
+   C. Uncertain  
+
+3. Which number would fill the empty space in the series: 4, 7, 12, 19, _, 39?  
+   A. 28  
+   B. 26  
+   C. 24  
+   D. 22  
+
+4. Age of father is seven times the age of his son. In the next 10 years, the age of father will be three times the age of his son. What is the age of father now?  
+   A. 35 years  
+   B. 37 years  
+   C. 39 years  
+   D. 41 years  
+
+5. The feature that allows the same operations to be carried out differently depending on the object is ________:  
+   A. Polymorphism  
+   B. Polygamy  
+   C. Inheritance  
+   D. Multitasking  
+
+6. What will be the output of the following program (on 32-bit compiler)?  
+   ```c
+   int main() {
+       char a = 2*2 + 2;
+       printf("%d", a);
+       return 0;
+   }
+   ```
+   A. 0  
+   B. Garbage  
+   C. 6  
+   D. 8  
+
+7. What will be the output of the following program?  
+   ```c
+   #include <stdio.h>
+
+   int main() {
+       int a = 10;
+       if (a == 10) {
+           printf("Hello...");
+           break;
+           printf("Ok");
+       } else {
+           printf("Hii");
+       }
+       return 0;
+   }
+   ```
+   A. Hello...  
+   B. Hello...OK  
+   C. OK  
+   D. Error  
+
+8. How many times will this loop execute?  
+   ```c
+   int main() {
+       int max = 5;
+       int i = 0;
+       for (;;) {
+           i++;
+           if (i > max)
+               break;
+           printf("i = %d\n", i);
+       }
+       return 0;
+   }
+   ```
+   A. 2  
+   B. 5  
+   C. 4  
+   D. None of these  
+
+9. How many times will the above loop execute?  
+   ```c
+   int main() {
+       int n = 10, i = 0;
+       while (1) {
+           printf("END\n");
+           n++;
+       }
+       return 0;
+   }
+   ```
+   A. 10  
+   B. 5  
+   C. 4  
+   D. Infinite  
+
+10. What will be the output of the following program?  
+    ```c
+    #include <stdio.h>
+
+    int fooo(void) {
+        static int num = 0;
+        num++;
+        return num;
+    }
+
+    int main() {
+        int val;
+        val = fooo();
+        printf("step1: %d\n", val);
+        val = fooo();
+        printf("step2: %d\n", val);
+        val = fooo();
+        printf("step3: %d\n", val);
+        return 0;
+    }
+    ```
+    A. step1: 1, step2: 1, step3: 1  
+    B. step1: 1, step2: 2, step3: 3  
+    C. step1: 0, step2: 0, step3: 0  
+    D. ERROR  
+
+11. A major advantage of inheritance is:  
+    A. Reducing the time it takes to create new objects  
+    B. Not having to think about how objects will be used  
+    C. Reducing the amount of memory required to execute a program  
+    D. Enabling people who have not studied programming to create useful applications  
+
+12. How many times is the `i` value checked in the following C program?  
+    ```c
+    #include <stdio.h>
+
+    int main() {
+        int i = 0;
+        while (i < 3)
+            i++;
+        printf("In while loop\n");
+    }
+    ```
+    A. 2  
+    B. 3  
+    C. 4  
+    D. 1  
+
+**Answers**  
+1. D  
+2. A  
+3. A  
+4. A  
+5. A  
+6. C  
+7. D  
+8. B  
+9. D  
+10. B  
+11. A  
+12. C  
+
+---
+
+Let me know if you'd like any specific part of this document explained or formatted differently!

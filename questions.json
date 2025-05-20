@@ -1,0 +1,152 @@
+{
+    "questions": [
+        {
+            "category": "C Programming",
+            "question_text": "How many times will this loop execute?",
+            "code_text": "#include <stdio.h>\nint main() {\n    int i;\n    for(i=1; i<=5; i++) {\n        printf(\"%d\\n\", i);\n    }\n    return 0;\n}",
+            "code_language": "c",
+            "option_a": "2",
+            "option_b": "5",
+            "option_c": "4",
+            "option_d": "None of these",
+            "correct_answer": "B",
+            "explanation": "The loop will execute 5 times, printing values from 1 to 5"
+        },
+        {
+            "category": "C Programming",
+            "question_text": "How many times is i checked in the following program?",
+            "code_text": "#include <stdio.h>\nint main() {\n    int i;\n    for(i=0; i<3; i++) {\n        printf(\"%d\\n\", i);\n    }\n    return 0;\n}",
+            "code_language": "c",
+            "option_a": "2",
+            "option_b": "3",
+            "option_c": "4",
+            "option_d": "1",
+            "correct_answer": "C",
+            "explanation": "The condition i < 3 is checked 4 times: initially (i=0), after i=1, after i=2, and finally after i=3 when the loop terminates"
+        },
+        {
+            "category": "Python Programming",
+            "question_text": "What will be the output of this code?",
+            "code_text": "def factorial(n):\n    if n == 0:\n        return 1\n    return n * factorial(n-1)\n\nprint(factorial(3))",
+            "code_language": "python",
+            "option_a": "3",
+            "option_b": "6",
+            "option_c": "9",
+            "option_d": "None of these",
+            "correct_answer": "B",
+            "explanation": "The factorial of 3 is 3 * 2 * 1 = 6"
+        },
+        {
+            "category": "Basic Programming",
+            "question_text": "What is a variable?",
+            "option_a": "A container for data",
+            "option_b": "A loop construct",
+            "option_c": "A function name",
+            "option_d": "A class definition",
+            "correct_answer": "A",
+            "explanation": "A variable is a named container that stores data in programming."
+        },
+        {
+            "category": "Logical Reasoning",
+            "question_text": "Pointing to a photograph of a man, Pooja said, 'He is the only son of the mother of my sister's brother.' How is that person related to Pooja?",
+            "option_a": "Father",
+            "option_b": "Maternal Uncle",
+            "option_c": "Cousin",
+            "option_d": "None of these",
+            "correct_answer": "D",
+            "explanation": "The person in the photograph is Pooja's brother - 'My sister's brother' = Pooja's brother, 'Mother of my brother' = Pooja's mother, 'Only son of Pooja's mother' = Pooja's brother"
+        },
+        {
+            "category": "Logical Reasoning",
+            "question_text": "If School A has more admissions than School B and School C has fewer admissions than School B, then the statement 'School A has fewer admissions than School C' is:",
+            "option_a": "False",
+            "option_b": "True",
+            "option_c": "Uncertain",
+            "option_d": "None of these",
+            "correct_answer": "A",
+            "explanation": "Using transitive property: A > B > C therefore A cannot have fewer admissions than C"
+        },
+        {
+            "category": "C Programming",
+            "question_text": "What will be the output of the following program (on 32-bit compiler)?",
+            "code_text": "#include <stdio.h>\nint main() {\n    char a = 2*2 + 2;\n    printf(\"%d\", a);\n    return 0;\n}",
+            "code_language": "c",
+            "option_a": "0",
+            "option_b": "Garbage",
+            "option_c": "6",
+            "option_d": "8",
+            "correct_answer": "C",
+            "explanation": "The expression 2*2+2 evaluates to 6 which is stored in the char variable"
+        },
+        {
+            "category": "C Programming",
+            "question_text": "What will be the output of the following program?",
+            "code_text": "#include <stdio.h>\nint main() {\n    int a = 10;\n    if (a == 10) {\n        printf(\"Hello...\");\n        break;\n        printf(\"Ok\");\n    } else {\n        printf(\"Hii\");\n    }\n    return 0;\n}",
+            "code_language": "c",
+            "option_a": "Hello...",
+            "option_b": "Hello...OK",
+            "option_c": "OK",
+            "option_d": "Error",
+            "correct_answer": "D",
+            "explanation": "Break statement can only be used within loops or switch statements. Using it in an if statement will result in a compilation error"
+        },
+        {
+            "category": "C Programming",
+            "question_text": "How many times will this loop execute?",
+            "code_text": "#include <stdio.h>\nint main() {\n    int max = 5;\n    int i = 0;\n    for(;;) {\n        i++;\n        if(i > max)\n            break;\n        printf(\"i = %d\\n\", i);\n    }\n    return 0;\n}",
+            "code_language": "c",
+            "option_a": "2",
+            "option_b": "5",
+            "option_c": "4",
+            "option_d": "None of these",
+            "correct_answer": "B",
+            "explanation": "The loop will execute 5 times, printing values from 1 to 5, then break when i becomes 6"
+        },
+        {
+            "category": "C Programming",
+            "question_text": "How many times will this loop execute?",
+            "code_text": "#include <stdio.h>\nint main() {\n    int n = 10, i = 0;\n    while (1) {\n        printf(\"END\\n\");\n        n++;\n    }\n    return 0;\n}",
+            "code_language": "c",
+            "option_a": "10",
+            "option_b": "5",
+            "option_c": "4",
+            "option_d": "Infinite",
+            "correct_answer": "D",
+            "explanation": "The while(1) creates an infinite loop as there is no exit condition"
+        },
+        {
+            "category": "C Programming",
+            "question_text": "What will be the output of the following program?",
+            "code_text": "#include <stdio.h>\n\nint fooo(void) {\n    static int num = 0;\n    num++;\n    return num;\n}\n\nint main() {\n    int val;\n    val = fooo();\n    printf(\"step1: %d\\n\", val);\n    val = fooo();\n    printf(\"step2: %d\\n\", val);\n    val = fooo();\n    printf(\"step3: %d\\n\", val);\n    return 0;\n}",
+            "code_language": "c",
+            "option_a": "step1: 1, step2: 1, step3: 1",
+            "option_b": "step1: 1, step2: 2, step3: 3",
+            "option_c": "step1: 0, step2: 0, step3: 0",
+            "option_d": "ERROR",
+            "correct_answer": "B",
+            "explanation": "The static variable retains its value across function calls, incrementing each time"
+        },
+        {
+            "category": "Object-Oriented Programming",
+            "question_text": "A major advantage of inheritance is:",
+            "option_a": "Reducing the time it takes to create new objects",
+            "option_b": "Not having to think about how objects will be used",
+            "option_c": "Reducing the amount of memory required to execute a program",
+            "option_d": "Enabling people who have not studied programming to create useful applications",
+            "correct_answer": "A",
+            "explanation": "Inheritance enables code reuse and reduces the time required to create new objects by building on existing classes"
+        },
+        {
+            "category": "C Programming",
+            "question_text": "How many times is the i value checked in the following C program?",
+            "code_text": "#include <stdio.h>\n\nint main() {\n    int i = 0;\n    while (i < 3)\n        i++;\n    printf(\"In while loop\\n\");\n}",
+            "code_language": "c",
+            "option_a": "2",
+            "option_b": "3",
+            "option_c": "4",
+            "option_d": "1",
+            "correct_answer": "C",
+            "explanation": "i is checked 4 times: i=0, i=1, i=2, and finally i=3 when the condition fails and loop terminates"
+        }
+    ]
+}
