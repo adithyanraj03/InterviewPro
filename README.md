@@ -1,7 +1,6 @@
 # <img src="static/images/logo.png" alt="InterviewPro Logo" width="32" height="32"> InterviewPro - Professional Interview Portal
 
 ![License](https://img.shields.io/github/license/adithyanraj03/InterviewPro)
-![InterviewPro](https://img.shields.io/badge/InterviewPro%20Portal-0046B8)
 ![Flask](https://img.shields.io/badge/Flask-2.0%2B-lightgrey)
 ![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-1.4%2B-red)
 ![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
