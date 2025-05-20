@@ -16,11 +16,9 @@
 
 InterviewPro is a comprehensive, professional interview management system built with Flask and SQLAlchemy. This application provides a secure platform for administering technical assessments, evaluating candidate performance, and streamlining the recruitment process.
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/531d9a6f-3f08-4959-b81c-4c7fa160c9ea" alt="Image 1" width="25%" style="display:inline-block;">
-  <img src="https://github.com/user-attachments/assets/738525fa-5711-4294-80eb-80c5f9ab4a89" alt="Image 2" width="60%" style="display:inline-block;">
+<img src="https://github.com/user-attachments/assets/531d9a6f-3f08-4959-b81c-4c7fa160c9ea" alt="Image 1" width="25%" style="display:inline-block;">
+<img src="https://github.com/user-attachments/assets/738525fa-5711-4294-80eb-80c5f9ab4a89" alt="Image 2" width="60%" style="display:inline-block;">
 
-</p>
 
 
 
@@ -60,11 +58,10 @@ InterviewPro is a comprehensive, professional interview management system built 
    - Monitor test attempts, scores, and completion status
    - Access detailed candidate performance reports
    - Verify candidate credentials and authentication history
-<p>  
+
   <img src="https://github.com/user-attachments/assets/49eeef37-f443-43a8-8c4e-ca150c837b1d" alt="Image 3" width="45%" style="display:inline-block;">
   <img src="https://github.com/user-attachments/assets/7dc5a895-71f8-4dec-b473-7d5b0fa16495" alt="Image 4" width="45%" style="display:inline-block;">
 
-</p>
 
 ### For Candidates 👨‍💻
 
