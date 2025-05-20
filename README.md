@@ -13,9 +13,7 @@
 
 ## 📋 Overview
 
-InterviewPro is a comprehensive, professional interview management system built with Flask and SQLAlchemy. This application provides a secure platform for administering technical assessments, evaluating candidate performance, and streamlining the recruitment process.
-
-The platform supports complex technical assessments including code-based questions, multiple-choice evaluations, and customizable test parameters. With robust authentication, anti-cheating measures, and detailed reporting, InterviewPro provides everything needed to identify top technical talent efficiently.
+InterviewPro is a comprehensive, professional interview management system built with Flask and SQLAlchemy. This application provides a secure platform for administering technical assessments, evaluating candidate performance, and streamlining the recruitment process.The platform supports complex technical assessments including code-based questions, multiple-choice evaluations, and customizable test parameters. With robust authentication, anti-cheating measures, and detailed reporting, InterviewPro provides everything needed to identify top technical talent efficiently.
 
 <img src="https://github.com/user-attachments/assets/531d9a6f-3f08-4959-b81c-4c7fa160c9ea" alt="Image 1" width="25%" style="display:inline-block;">
 <img src="https://github.com/user-attachments/assets/738525fa-5711-4294-80eb-80c5f9ab4a89" alt="Image 2" width="60%" style="display:inline-block;">
