@@ -1,10 +1,16 @@
-# 🚀 InterviewPro - Professional Interview Portal
-
-![InterviewPro Logo](static/images/logo.png)
+# <img src="static/images/logo.png" alt="InterviewPro Logo" width="32" height="32"> InterviewPro - Professional Interview Portal
 
 ## 📋 Overview
 
 InterviewPro is a comprehensive, professional interview management system built with Flask and SQLAlchemy. This application provides a secure platform for administering technical assessments, evaluating candidate performance, and streamlining the recruitment process.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/531d9a6f-3f08-4959-b81c-4c7fa160c9ea" alt="Image 1" width="25%" style="display:inline-block;">
+  <img src="https://github.com/user-attachments/assets/738525fa-5711-4294-80eb-80c5f9ab4a89" alt="Image 2" width="60%" style="display:inline-block;">
+
+</p>
+
+
 
 ## ✨ Features
 
@@ -33,7 +39,7 @@ InterviewPro is a comprehensive, professional interview management system built 
 3. **Questions** 🧩
    - Create individual questions with multiple-choice options
    - Import questions in bulk from JSON format
-   - Sample JSON template available at `static/data/questions.json`
+   - Sample JSON template available at `static/data/questions.json` or `./questions.json`
    - Support for code snippets with syntax highlighting
    - Organize questions by categories for easy management
 
@@ -42,6 +48,11 @@ InterviewPro is a comprehensive, professional interview management system built 
    - Monitor test attempts, scores, and completion status
    - Access detailed candidate performance reports
    - Verify candidate credentials and authentication history
+<p>  
+  <img src="https://github.com/user-attachments/assets/49eeef37-f443-43a8-8c4e-ca150c837b1d" alt="Image 3" width="45%" style="display:inline-block;">
+  <img src="https://github.com/user-attachments/assets/7dc5a895-71f8-4dec-b473-7d5b0fa16495" alt="Image 4" width="45%" style="display:inline-block;">
+
+</p>
 
 ### For Candidates 👨‍💻
 
@@ -75,6 +86,44 @@ InterviewPro is a comprehensive, professional interview management system built 
 - **Frontend**: HTML5, CSS3, JavaScript, Jinja2 Templates
 - **Authentication**: Flask-Login with password hashing
 - **Deployment**: IIS-ready with wfastcgi support
+
+Project Structure : 
+
+```
+interview_app/
+├── static/
+│   ├── css/
+│   │   └── style.css
+│   └── js/
+│       └── main.js
+├── templates/
+│   ├── admin/
+│   │   ├── dashboard.html
+│   │   ├── create_test.html
+│   │   ├── candidates.html
+│   │   └── analytics.html
+│   ├── candidate/
+│   │   ├── dashboard.html
+│   │   └── take_test.html
+│   ├── auth/
+│   │   ├── login.html
+│   │   └── register.html
+│   └── base.html
+├── models/
+│   ├── __init__.py
+│   ├── user.py
+│   ├── test.py
+│   └── question.py
+├── utils/
+│   ├── __init__.py
+│   ├── create_admin.py
+│   └── check_admin.py
+├── config.py
+├── __init__.py
+├── app.py
+├── run.py
+└── requirements.txt 
+```
 
 ## 🔧 Technical Details
 
@@ -172,10 +221,10 @@ The application uses a relational database with the following key models:
 
 ## 📝 License
 
-This project is proprietary and confidential.
+This project is under [MIT License](LICENSE)
 
 ## 👨‍💻 Author
 
-[Adithya N. Raj](https://github.com/adithyanraj03)
+[Adithya N Raj](https://github.com/adithyanraj03)
 
 
